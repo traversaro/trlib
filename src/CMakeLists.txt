@@ -31,7 +31,10 @@ target_include_directories(trlib
   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(trlib ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} m)
+target_link_libraries(trlib ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+if(NOT WIN32)
+  target_link_libraries(trlib m)
+endif()
 set_property(TARGET trlib PROPERTY C_STANDARD 11)
 
 add_library("trlib::trlib" ALIAS trlib)
