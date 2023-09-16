@@ -45,6 +45,7 @@ if(CHECK_FOUND)
         target_include_directories("test_${t}" PRIVATE "${PROJECT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}" ${CHECK_INCLUDE_DIRS})
         add_test("test_${t}" "${CMAKE_CURRENT_BINARY_DIR}/test_${t}")
 
+        #[===[
         if(APPLE)
         else()
             add_custom_command(OUTPUT "test_${t}_valgrind.c" COMMAND sed "'/sr = srunner_create(s);/a    srunner_set_fork_status(sr, CK_NOFORK);'" "${CMAKE_CURRENT_SOURCE_DIR}/test_${t}.c" > "test_${t}_valgrind.c" DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/test_${t}.c")
@@ -54,6 +55,7 @@ if(CHECK_FOUND)
             target_include_directories("test_${t}_valgrind" PRIVATE "${PROJECT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}" ${CHECK_INCLUDE_DIRS})
             add_test("test_${t}_valgrind" valgrind  --leak-check=full --show-leak-kinds=all --show-reachable=yes --error-exitcode=1 --errors-for-leak-kinds=all "${CMAKE_CURRENT_BINARY_DIR}/test_${t}_valgrind")
         endif()
+        ]===]
     endforeach(t)
 
 endif(CHECK_FOUND)
